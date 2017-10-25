@@ -3,11 +3,11 @@ package ru.javawebinar.topjava.util;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.model.UserMealWithExceed;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * GKislin
@@ -29,7 +29,33 @@ public class UserMealsUtil {
     }
 
     public static List<UserMealWithExceed>  getFilteredWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
-        System.out.println("TODO return filtered list with correctly exceeded field");
-        return null;
+        Map<LocalDate, Integer> caloriesPerDayMap = new HashMap<>();
+        for (UserMeal usermeal : mealList) {
+            LocalDate key = usermeal.getDateTime().toLocalDate();
+            if (caloriesPerDayMap.containsKey(key)) {
+                caloriesPerDayMap.put(key, usermeal.getCalories() + caloriesPerDayMap.get(key));
+            } else {
+                caloriesPerDayMap.put(key, usermeal.getCalories());
+            }
+        }
+
+        List<UserMealWithExceed> list = new ArrayList<>();
+        for (UserMeal usermeal : mealList) {
+            LocalDate key = usermeal.getDateTime().toLocalDate();
+            LocalTime time = usermeal.getDateTime().toLocalTime();
+            if (time.isAfter(startTime) && time.isBefore(endTime)) {
+                UserMealWithExceed mealWithExceed;
+                if (caloriesPerDayMap.get(key) > caloriesPerDay) {
+                    mealWithExceed = new UserMealWithExceed(usermeal.getDateTime(),
+                            usermeal.getDescription(), usermeal.getCalories(), true);
+                } else {
+                    mealWithExceed = new UserMealWithExceed(usermeal.getDateTime(),
+                            usermeal.getDescription(), usermeal.getCalories(), false);
+                }
+                list.add(mealWithExceed);
+            }
+        }
+
+        return list;
     }
 }
