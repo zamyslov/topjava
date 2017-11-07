@@ -30,6 +30,7 @@ public class DaoFactory {
         }
     }
 
-
-
+    public Dao<Integer, Meal> getMealDao() {
+        return mealDao;
+    }
 }

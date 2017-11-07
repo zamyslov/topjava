@@ -8,6 +8,10 @@ import java.util.List;
 public final class MealIMDaoImpl implements Dao{
     private static MealIMDaoImpl crudDAO;
 
+    public MealIMDaoImpl() {
+//        dataSource = DataSource.getInstance();
+    }
+
     public static synchronized MealIMDaoImpl getInstance() {
         if (crudDAO == null) {
             crudDAO = new MealIMDaoImpl();
