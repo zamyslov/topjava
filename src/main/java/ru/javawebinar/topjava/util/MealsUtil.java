@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  * GKislin
  * 31.05.2015.
  */
-public class UserMealsUtil {
+public class MealsUtil {
     public static void main(String[] args) {
         List<UserMeal> mealList = Arrays.asList(
                 new UserMeal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500),
@@ -59,7 +59,7 @@ public class UserMealsUtil {
     private static List<UserMealWithExceed> getFilteredWithExceededStream(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
 
         Map<LocalDate, Integer> caloriesPerDayMap = mealList.stream()
-                .collect(Collectors.toMap(UserMealsUtil::toLocalDate, UserMeal::getCalories,
+                .collect(Collectors.toMap(MealsUtil::toLocalDate, UserMeal::getCalories,
                         (oldValue, newValue) -> oldValue + newValue));
 
         return mealList.stream().filter(x -> (TimeUtil.isBetween(toLocalTime(x), startTime, endTime))
