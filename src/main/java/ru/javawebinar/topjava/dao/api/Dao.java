@@ -10,8 +10,6 @@ public interface Dao<K, T> {
 
     T getById(K key);
 
-    T getBy(String fieldName, String key);
-
     void save(T entity);
 
     void delete(K key);
