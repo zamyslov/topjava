@@ -13,6 +13,7 @@
     <title>Meals</title>
 </head>
 <body>
+
 <style type="text/css">
     table, th, td {
         border: solid black;
@@ -29,18 +30,24 @@
 </style>
 <table>
     <tr>
+        <th>ID</th>
         <th>Date</th>
         <th>Description</th>
         <th>Calories</th>
         <th>Exceed</th>
+        <th></th>
+        <th></th>
     </tr>
     <tbody>
     <c:forEach items="${mealsWithExceededList}" var="meal">
         <tr class="${meal.exceed eq true ? "greenTD" : "redTD"}" >
+            <td><c:out value="${meal.id}"/></td>
             <td><c:out value="${meal.localDate} ${meal.localTime}"/></td>
             <td><c:out value="${meal.description}"/></td>
             <td><c:out value="${meal.calories}"/></td>
             <td><c:out value="${meal.exceed}"/></td>
+            <td><a href="/topjava/meals/edit/${meal.id}">Edit</a></td>
+            <td><a href="/topjava/meals/delete/${meal.id}">Delete</a></td>
         </tr>
     </c:forEach>
     </tbody>

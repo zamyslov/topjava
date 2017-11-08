@@ -7,9 +7,11 @@ import ru.javawebinar.topjava.model.Meal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public final class MealIMDaoImpl implements Dao<Integer,Meal>{
-    private static ConcurrentHashMap<Integer, Meal> mealMap;
+    private ConcurrentHashMap<Integer, Meal> mealMap;
+    private AtomicInteger idCounter = new AtomicInteger(1);
     private static MealIMDaoImpl crudDAO;
 
     private MealIMDaoImpl() {
@@ -33,13 +35,16 @@ public final class MealIMDaoImpl implements Dao<Integer,Meal>{
     }
 
     @Override
-    public void save(Meal entity) {
-        mealMap.put(entity.getId(),entity);
+    public void delete(Integer key) {
+        mealMap.remove(key);
     }
 
     @Override
-    public void delete(Integer key) {
-        mealMap.remove(key);
+    public Integer create(Meal entity) {
+        Integer id = idCounter.getAndIncrement();
+        entity.setId(id);
+        mealMap.put(id,entity);
+        return id;
     }
 
     @Override

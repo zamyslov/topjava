@@ -10,7 +10,7 @@ public interface Dao<K, T> {
 
     T getById(K key);
 
-    void save(T entity);
+    K create(T entity);
 
     void delete(K key);
 

@@ -1,5 +1,7 @@
 package ru.javawebinar.topjava.util;
 
+import ru.javawebinar.topjava.dao.DaoFactory;
+import ru.javawebinar.topjava.dao.api.Dao;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealWithExceed;
 
@@ -17,19 +19,8 @@ import static java.util.stream.Collectors.toList;
 
 public class MealsUtil {
 
-    public static List<MealWithExceed> initListMealWithExceeded() {
-        return Arrays.asList(
-                new MealWithExceed(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500,false),
-                new MealWithExceed(LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000,false),
-                new MealWithExceed(LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500,false),
-                new MealWithExceed(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000,true),
-                new MealWithExceed(LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500,true),
-                new MealWithExceed(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510,true)
-        );
-    }
-
-    public static void main(String[] args) {
-        List<Meal> meals = Arrays.asList(
+    public static List<Meal> initListMeal() {
+        List<Meal> mealList = Arrays.asList(
                 new Meal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500),
                 new Meal(LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000),
                 new Meal(LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500),
@@ -37,6 +28,17 @@ public class MealsUtil {
                 new Meal(LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500),
                 new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510)
         );
+        Dao<Integer,Meal> mealDao = DaoFactory.getInstance().getMealDao();
+        for (Meal meal:mealList) {
+            Integer id = mealDao.create(meal);
+            meal.setId(id);
+
+        }
+        return mealList;
+    }
+
+    public static void main(String[] args) {
+        List<Meal> meals = initListMeal();
         List<MealWithExceed> mealsWithExceeded = getFilteredWithExceeded(meals, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
         mealsWithExceeded.forEach(System.out::println);
 
@@ -118,6 +120,6 @@ public class MealsUtil {
     }
 
     public static MealWithExceed createWithExceed(Meal meal, boolean exceeded) {
-        return new MealWithExceed(meal.getDateTime(), meal.getDescription(), meal.getCalories(), exceeded);
+        return new MealWithExceed(meal.getDateTime(), meal.getDescription(), meal.getCalories(), exceeded, meal.getId());
     }
 }
