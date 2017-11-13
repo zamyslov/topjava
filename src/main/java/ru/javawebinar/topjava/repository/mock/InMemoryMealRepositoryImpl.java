@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class InMemoryMealRepositoryImpl implements MealRepository {
     private Map<Integer, Meal> repository = new ConcurrentHashMap<>();
@@ -37,8 +38,12 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public Collection<Meal> getAll() {
-        return repository.values();
+    public Collection<Meal> getAll(int userId) {
+        return repository.values().stream().
+                filter(meal -> (meal.getUserId() == userId))
+                .sorted((m1,m2)->m2.getDateTime().compareTo(m1.getDateTime()))
+                .collect(Collectors.toList());
     }
+
 }
 
