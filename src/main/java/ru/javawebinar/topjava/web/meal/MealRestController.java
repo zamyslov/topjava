@@ -7,6 +7,8 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.to.MealWithExceed;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Collection;
 
 @Controller
@@ -16,7 +18,13 @@ public class MealRestController {
     private MealService service;
 
     public Collection<MealWithExceed> getAll() {
-        return service.getAll(AuthorizedUser.id(),AuthorizedUser.getCaloriesPerDay());
+        return service.getAll(AuthorizedUser.id(), AuthorizedUser.getCaloriesPerDay());
+    }
+
+    public Collection<MealWithExceed> getDateTimeFiltered(LocalDate startDate, LocalDate endDate
+            , LocalTime startTime, LocalTime endTime) {
+        return service.getDateTimeFiltered(AuthorizedUser.id(), startDate, endDate, startTime, endTime
+                , AuthorizedUser.getCaloriesPerDay());
     }
 
     public Meal get(int id) {

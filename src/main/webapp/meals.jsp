@@ -23,7 +23,7 @@
 
         dt {
             display: inline-block;
-            width: 170px;
+            width: 120px;
         }
 
         dd {
@@ -39,23 +39,23 @@
     <h2>Meals</h2>
     <a href="meals?action=create">Add Meal</a>
     <hr/>
-    <dl>
-        <dt>От даты:</dt>
-        <dd><input type="date" name="dateFrom"></dd>
-    </dl>
-    <dl>
-        <dt>До даты:</dt>
-        <dd><input type="date" name="dateTo"></dd>
-    </dl>
-    <dl>
-        <dt>От времени:</dt>
-        <dd><input type="time" name="timeFrom"></dd>
-    </dl>
-    <dl>
-        <dt>До времени:</dt>
-        <dd><input type="time" name="timeTo"></dd>
-    </dl>
-    <td><a href="meals?action=filter&df=${dateFrom}&dt=${dateTo}&tf=${timeFrom}&tt=${timeTo}">Filter</a></td>
+    <form method="post" action="meals?action=filter">
+        <dl>
+            <dt>От даты:</dt>
+            <dd><input id="dateFrom" type="date" name="startDate"></dd>
+            <dt>От времени:</dt>
+            <dd><input type="time" name="startTime"></dd>
+        </dl>
+        <dl>
+            <dt>До даты:</dt>
+            <dd><input type="date" name="endDate"></dd>
+            <dt>До времени:</dt>
+            <dd><input type="time" name="endTime"></dd>
+        </dl>
+        <button type="submit">Filter</button>
+    </form>
+
+    <hr/>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
         <tr>

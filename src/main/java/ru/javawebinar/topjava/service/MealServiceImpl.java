@@ -8,6 +8,9 @@ import ru.javawebinar.topjava.to.MealWithExceed;
 import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 
 @Service
@@ -46,6 +49,13 @@ public class MealServiceImpl implements MealService {
 
     @Override
     public Collection<MealWithExceed> getAll(int userId, int caloriesPerDay) {
-        return MealsUtil.getWithExceeded(repository.getAll(userId),caloriesPerDay);
+        return MealsUtil.getWithExceeded(repository.getAll(userId), caloriesPerDay);
+    }
+
+    @Override
+    public Collection<MealWithExceed> getDateTimeFiltered(int userId, LocalDate startDate, LocalDate endDate,
+                                                          LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
+        return MealsUtil.getDateTimeFilteredWithExceeded(repository.getAll(AuthorizedUser.id()),
+                startDate, endDate, startTime, endTime, caloriesPerDay);
     }
 }
