@@ -14,6 +14,23 @@
         .exceeded {
             color: red;
         }
+
+        dl {
+            background: none repeat scroll 0 0 #FAFAFA;
+            margin: 8px 0;
+            padding: 0;
+        }
+
+        dt {
+            display: inline-block;
+            width: 170px;
+        }
+
+        dd {
+            display: inline-block;
+            margin-left: 8px;
+            vertical-align: top;
+        }
     </style>
 </head>
 <body>
@@ -22,6 +39,23 @@
     <h2>Meals</h2>
     <a href="meals?action=create">Add Meal</a>
     <hr/>
+    <dl>
+        <dt>От даты:</dt>
+        <dd><input type="date" name="dateFrom"></dd>
+    </dl>
+    <dl>
+        <dt>До даты:</dt>
+        <dd><input type="date" name="dateTo"></dd>
+    </dl>
+    <dl>
+        <dt>От времени:</dt>
+        <dd><input type="time" name="timeFrom"></dd>
+    </dl>
+    <dl>
+        <dt>До времени:</dt>
+        <dd><input type="time" name="timeTo"></dd>
+    </dl>
+    <td><a href="meals?action=filter&df=${dateFrom}&dt=${dateTo}&tf=${timeFrom}&tt=${timeTo}">Filter</a></td>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
         <tr>
@@ -36,9 +70,6 @@
             <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.to.MealWithExceed"/>
             <tr class="${meal.exceed ? 'exceeded' : 'normal'}">
                 <td>
-                        <%--${meal.dateTime.toLocalDate()} ${meal.dateTime.toLocalTime()}--%>
-                        <%--<%=TimeUtil.toString(meal.getDateTime())%>--%>
-                        <%--${fn:replace(meal.dateTime, 'T', ' ')}--%>
                         ${fn:formatDateTime(meal.dateTime)}
                 </td>
                 <td>${meal.description}</td>
