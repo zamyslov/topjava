@@ -4,9 +4,11 @@ import org.springframework.stereotype.Service;
 import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.to.MealWithExceed;
+import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
-import java.util.List;
+import java.util.Collection;
 
 @Service
 public class MealServiceImpl implements MealService {
@@ -43,7 +45,7 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public List<Meal> getAll(int userId) {
-        return repository.getAll(userId);
+    public Collection<MealWithExceed> getAll(int userId, int caloriesPerDay) {
+        return MealsUtil.getWithExceeded(repository.getAll(userId),caloriesPerDay);
     }
 }
