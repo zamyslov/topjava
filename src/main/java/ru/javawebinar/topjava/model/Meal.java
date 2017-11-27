@@ -17,8 +17,8 @@ import java.time.LocalTime;
         @NamedQuery(name = Meal.UPDATE, query = "UPDATE Meal m SET m.dateTime=:date_time, " +
                 "m.description=:description, m.calories=:calories WHERE m.id=:id AND m.user.id=:user_id"),
         @NamedQuery(name = Meal.ALL_SORTED, query = "SELECT m FROM Meal m LEFT JOIN FETCH m.user WHERE m.user.id=:user_id ORDER BY m.dateTime DESC"),
-        @NamedQuery(name = Meal.ALL_BETWEEN, query =
-                "SELECT m FROM Meal m LEFT JOIN FETCH m.user WHERE (m.user.id=:user_id) AND (m.dateTime>=:start_time AND m.dateTime<=:end_time) ORDER BY m.dateTime DESC"),
+        @NamedQuery(name = Meal.ALL_BETWEEN, query = "SELECT m FROM Meal m WHERE m.user.id=:user_id AND " +
+                "m.dateTime between :startdate AND :enddate ORDER BY m.dateTime DESC"),
 })
 @Entity
 @Table(name = "meals")
@@ -31,7 +31,7 @@ public class Meal extends AbstractBaseEntity {
     public static final String ALL_BETWEEN = "Meal.getAllBetween";
 
 
-    @Column(name = "date_time",  columnDefinition = "timestamp")
+    @Column(name = "date_time", nullable = false, unique = true)
     @NotNull
 //    @Convert(converter = LocalDateTimePersistenceConverter.class)
     private LocalDateTime dateTime;
