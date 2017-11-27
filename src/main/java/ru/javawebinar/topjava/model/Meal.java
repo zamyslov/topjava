@@ -28,7 +28,7 @@ public class Meal extends AbstractBaseEntity {
     public static final String ALL_BETWEEN = "Meal.getAllBetween";
 
 
-    @Column(name = "datetime",  columnDefinition = "timestamp")
+    @Column(name = "date_time",  columnDefinition = "timestamp")
     @NotNull
 //    @Convert(converter = LocalDateTimePersistenceConverter.class)
     private LocalDateTime dateTime;
