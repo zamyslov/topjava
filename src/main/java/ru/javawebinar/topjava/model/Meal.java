@@ -14,6 +14,8 @@ import java.time.LocalTime;
 @NamedQueries({
         @NamedQuery(name = Meal.GET, query = "SELECT m FROM Meal m WHERE m.id=?1 AND m.user.id=?2"),
         @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal m WHERE m.id=:id AND m.user.id=:user_id"),
+        @NamedQuery(name = Meal.UPDATE, query = "UPDATE Meal m SET m.dateTime=:date_time, " +
+                "m.description=:description, m.calories=:calories WHERE m.id=:id AND m.user.id=:user_id"),
         @NamedQuery(name = Meal.ALL_SORTED, query = "SELECT m FROM Meal m LEFT JOIN FETCH m.user WHERE m.user.id=:user_id ORDER BY m.dateTime DESC"),
         @NamedQuery(name = Meal.ALL_BETWEEN, query =
                 "SELECT m FROM Meal m LEFT JOIN FETCH m.user WHERE (m.user.id=:user_id) AND (m.dateTime>=:start_time AND m.dateTime<=:end_time) ORDER BY m.dateTime DESC"),
@@ -23,6 +25,7 @@ import java.time.LocalTime;
 public class Meal extends AbstractBaseEntity {
 
     public static final String DELETE = "Meal.delete";
+    public static final String UPDATE = "Meal.update";
     public static final String GET = "Meal.get";
     public static final String ALL_SORTED = "Meal.getAllSorted";
     public static final String ALL_BETWEEN = "Meal.getAllBetween";
@@ -60,6 +63,15 @@ public class Meal extends AbstractBaseEntity {
         this.description = description;
         this.calories = calories;
     }
+
+    public Meal(Integer id, LocalDateTime dateTime, String description, int calories, User user) {
+        super(id);
+        this.dateTime = dateTime;
+        this.description = description;
+        this.calories = calories;
+        this.user = user;
+    }
+
 
     public LocalDateTime getDateTime() {
         return dateTime;

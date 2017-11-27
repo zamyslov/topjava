@@ -4,6 +4,7 @@ import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
 
 import javax.persistence.EntityManager;
@@ -23,11 +24,20 @@ public class JpaMealRepositoryImpl implements MealRepository {
     @Transactional
     public Meal save(Meal meal, int userId) {
         if (meal.isNew()) {
+            meal.setUser(em.find(User.class, userId));
             em.persist(meal);
             return meal;
-        } else {
-            return em.merge(meal);
+        } else if (em.createNamedQuery(Meal.UPDATE)
+                .setParameter("id", meal.getId())
+                .setParameter("description", meal.getDescription())
+                .setParameter("calories", meal.getCalories())
+                .setParameter("date_time", meal.getDateTime())
+                .setParameter("user_id", userId)
+                .executeUpdate() == 0) {
+            meal = null;
         }
+        return meal;
+
     }
 
     @Override
@@ -51,16 +61,16 @@ public class JpaMealRepositoryImpl implements MealRepository {
     @Override
     public List<Meal> getAll(int userId) {
         return em.createNamedQuery(Meal.ALL_SORTED, Meal.class)
-                .setParameter("user_id",userId)
+                .setParameter("user_id", userId)
                 .getResultList();
     }
 
     @Override
     public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
         return em.createNamedQuery(Meal.ALL_BETWEEN, Meal.class)
-                .setParameter("user_id",userId)
-                .setParameter("start_time",startDate)
-                .setParameter("end_time",endDate)
+                .setParameter("user_id", userId)
+                .setParameter("start_time", startDate)
+                .setParameter("end_time", endDate)
                 .getResultList();
 
     }
