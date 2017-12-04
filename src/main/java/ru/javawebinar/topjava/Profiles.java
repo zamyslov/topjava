@@ -26,4 +26,16 @@ public class Profiles {
             }
         }
     }
+
+    public static String getActiveJpaProfile(Class<?> aClass) {
+        if (aClass.getSimpleName().startsWith("DataJpa")) {
+            return DATAJPA;
+        }else if (aClass.getSimpleName().startsWith("Jpa")) {
+            return JPA;
+        }else if (aClass.getSimpleName().startsWith("Jdbc")) {
+            return JDBC;
+        }else {
+            return DATAJPA;
+        }
+    }
 }
