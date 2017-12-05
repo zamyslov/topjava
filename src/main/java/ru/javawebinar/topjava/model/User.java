@@ -38,7 +38,7 @@ public class User extends AbstractNamedEntity {
     @Size(min = 5, max = 64)
     private String password;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     @OrderBy("dateTime desc ")
     @JoinColumn(name="USER_ID", referencedColumnName="ID")
     private List<Meal> meals;
