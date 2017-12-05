@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 
 import static ru.javawebinar.topjava.util.MealsUtil.DEFAULT_CALORIES_PER_DAY;
@@ -36,6 +37,12 @@ public class User extends AbstractNamedEntity {
     @NotBlank
     @Size(min = 5, max = 64)
     private String password;
+
+    @OneToMany
+    @OrderBy("dateTime desc ")
+    @JoinColumn(name="USER_ID", referencedColumnName="ID")
+    private List<Meal> meals;
+
 
     @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
     @NotNull
@@ -113,6 +120,14 @@ public class User extends AbstractNamedEntity {
 
     public Set<Role> getRoles() {
         return roles;
+    }
+
+    public List<Meal> getMeals() {
+        return meals;
+    }
+
+    public void setMeals(List<Meal> meals) {
+        this.meals = meals;
     }
 
     public String getPassword() {
