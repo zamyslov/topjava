@@ -2,6 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
+<jsp:include page="fragments/headTag.jsp"/>
+<body>
+<jsp:include page="fragments/bodyHeader.jsp"/>
 <head>
     <title>Meal</title>
     <link rel="stylesheet" href="css/style.css">
@@ -12,7 +15,7 @@
     <h2>${param.action == 'create' ? 'Create meal' : 'Edit meal'}</h2>
     <hr>
     <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.Meal" scope="request"/>
-    <form method="post" action="meals">
+    <form method="post" action="save">
         <input type="hidden" name="id" value="${meal.id}">
         <dl>
             <dt>DateTime:</dt>
@@ -31,4 +34,5 @@
     </form>
 </section>
 </body>
+<jsp:include page="fragments/footer.jsp"/>
 </html>
