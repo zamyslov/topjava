@@ -83,7 +83,7 @@ public class MealRestController extends AbstractMealController {
         LocalDate endDate = parseLocalDate(request.getParameter("endDate"));
         LocalTime startTime = parseLocalTime(request.getParameter("startTime"));
         LocalTime endTime = parseLocalTime(request.getParameter("endTime"));
-        model.addAttribute("meals", super.getBetween(startDate, startTime, endDate, endTime));
+        request.setAttribute("meals", super.getBetween(startDate, startTime, endDate, endTime));
         return "meals";
     }
 }

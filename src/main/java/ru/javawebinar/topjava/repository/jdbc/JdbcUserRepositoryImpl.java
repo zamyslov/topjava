@@ -22,7 +22,7 @@ import java.util.*;
 @Transactional(readOnly = true)
 public class JdbcUserRepositoryImpl implements UserRepository {
 
-    private static final BeanPropertyRowMapper<User> ROW_MAPPER = BeanPropertyRowMapper.newInstance(User.class);
+    //private static final BeanPropertyRowMapper<User> ROW_MAPPER = BeanPropertyRowMapper.newInstance(User.class);
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -87,14 +87,13 @@ public class JdbcUserRepositoryImpl implements UserRepository {
 
     @Override
     public User getByEmail(String email) {
-//        return jdbcTemplate.queryForObject("SELECT * FROM users WHERE email=?", ROW_MAPPER, email);
         List<User> users = jdbcTemplate.query("SELECT * FROM users AS u JOIN user_roles AS ur ON u.id = ur.user_id WHERE email=?", new UserRowMapper(), email);
         return DataAccessUtils.singleResult(getUserWithRoles(users));
     }
 
     @Override
     public List<User> getAll() {
-        List<User> users = jdbcTemplate.query("SELECT * FROM users AS u JOIN user_roles AS ur ON u.id = ur.user_id ORDER BY name, email", new UserRowMapper());
+        List<User> users = jdbcTemplate.query("SELECT * FROM users AS u JOIN user_roles AS ur ON u.id = ur.user_id", new UserRowMapper());
         return getUserWithRoles(users);
     }
 
