@@ -19,7 +19,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 @Repository
-//@Transactional(readOnly = true)
+@Transactional(readOnly = true)
 public class JdbcUserRepositoryImpl implements UserRepository {
 
     private static final BeanPropertyRowMapper<User> ROW_MAPPER = BeanPropertyRowMapper.newInstance(User.class);
@@ -104,7 +104,10 @@ public class JdbcUserRepositoryImpl implements UserRepository {
             User tempUser = userMap.computeIfAbsent(user.getId(), key -> user);
             tempUser.getRoles().addAll(user.getRoles());
         }
-        return new ArrayList<>(userMap.values());
+        List<User> userList = new ArrayList<>(userMap.values());
+        userList.sort((a,b) -> (Comparator.comparing(User::getName, Comparator.nullsFirst(String.CASE_INSENSITIVE_ORDER))
+                .thenComparing(User::getEmail, Comparator.nullsFirst(String.CASE_INSENSITIVE_ORDER)).compare(a,b)));
+        return userList;
     }
 
     private class UserRowMapper implements RowMapper {
