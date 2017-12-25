@@ -7,9 +7,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealWithExceed;
+import ru.javawebinar.topjava.util.DateTimeUtil;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -51,10 +54,23 @@ public class MealRestController extends AbstractMealController {
         super.update(meal, id);
     }
 
+
     @GetMapping(value = "/between", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<MealWithExceed> getBetween(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @RequestParam("startDateTime") LocalDateTime startDateTime,
                                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @RequestParam("endDateTime") LocalDateTime endDateTime) {
         return super.getBetween(startDateTime.toLocalDate(), startDateTime.toLocalTime(),
                 endDateTime.toLocalDate(), endDateTime.toLocalTime());
+    }
+
+    @GetMapping(value = "/mybetween")
+    public List<MealWithExceed> getBetween(@RequestParam(value = "startDate", required = false) LocalDate startDate,
+                                           @RequestParam(value = "startTime", required = false) LocalTime startTime,
+                                           @RequestParam(value = "endDate", required = false) LocalDate endDate,
+                                           @RequestParam(value = "endTime", required = false) LocalTime endTime) {
+
+        return super.getBetween(startDate == null ? DateTimeUtil.MIN_DATE : startDate,
+                startTime == null ? LocalTime.MIN : startTime,
+                endDate == null ? DateTimeUtil.MAX_DATE : endDate,
+                endTime == null ? LocalTime.MAX : endTime);
     }
 }
