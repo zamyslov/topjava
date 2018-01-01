@@ -34,3 +34,20 @@ $(function () {
     });
     makeEditable();
 });
+
+function updateFilter(data) {
+    datatableApi.clear().rows.add(data).draw();
+}
+function filter() {
+    $.ajax({
+        url: ajaxUrl + "filter",
+        type: "POST",
+        data: $("#filterForm").serialize(),
+        success: updateFilter
+    });
+}
+function cleanFilter() {
+    $("#filterForm")[0].reset();
+    filter();
+}
+
