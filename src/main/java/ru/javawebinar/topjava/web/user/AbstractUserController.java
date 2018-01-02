@@ -3,6 +3,8 @@ package ru.javawebinar.topjava.web.user;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.service.UserService;
 
@@ -37,6 +39,11 @@ public abstract class AbstractUserController {
         log.info("delete {}", id);
         service.delete(id);
     }
+
+    public void enabled(int id, boolean enabled) {
+        service.enabled(id, enabled);
+    }
+
 
     public void update(User user, int id) {
         log.info("update {} with id={}", user, id);

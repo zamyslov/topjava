@@ -40,3 +40,23 @@ $(function () {
     });
     makeEditable();
 });
+
+function enabled() {
+    var id = $('tr[id]').attr("id");
+    var checked = $('#isEnabled').is(":checked");
+    $.ajax({
+        url: ajaxUrl + id,
+        type: "POST",
+        data: {
+           'checked': checked
+        },
+        success: function () {
+            updateTable();
+            if (checked) {
+                successNoty("Enabled");
+            } else {
+                successNoty("Disable");
+            }
+        }
+    });
+}
