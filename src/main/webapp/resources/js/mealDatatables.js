@@ -35,9 +35,15 @@ $(function () {
     makeEditable();
 });
 
+// $('#startDate').datetimepicker({
+//         format: 'Y-m-d'
+//     }
+// );
+
 function updateFilter(data) {
     datatableApi.clear().rows.add(data).draw();
 }
+
 function filter() {
     $.ajax({
         url: ajaxUrl + "filter",
@@ -46,6 +52,7 @@ function filter() {
         success: updateFilter
     });
 }
+
 function cleanFilter() {
     $("#filterForm")[0].reset();
     filter();
