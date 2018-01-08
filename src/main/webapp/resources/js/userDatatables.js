@@ -41,6 +41,10 @@ $(function () {
     makeEditable();
 });
 
+function updateTable() {
+    $.get(ajaxUrl, updateTableByData);
+}
+
 function enabled() {
     var id = $('tr[id]').attr("id");
     var checked = $('#isEnabled').is(":checked");

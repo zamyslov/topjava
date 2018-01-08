@@ -35,21 +35,21 @@ $(function () {
     makeEditable();
 });
 
-function updateFilter(data) {
-    datatableApi.clear().rows.add(data).draw();
-}
+// function updateFilter(data) {
+//     datatableApi.clear().rows.add(data).draw();
+// }
 
-function filter() {
+function updateTable() {
     $.ajax({
         url: ajaxUrl + "filter",
         type: "POST",
         data: $("#filterForm").serialize(),
-        success: updateFilter
+        success: updateTableByData
     });
 }
 
 function cleanFilter() {
     $("#filterForm")[0].reset();
-    filter();
+    updateTable();
 }
 

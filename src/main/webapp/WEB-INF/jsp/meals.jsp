@@ -99,7 +99,7 @@
             </div>
             <div class="clearfix"></div>
             <hr>
-            <a class="btn btn-primary" type="button" onclick="filter()">
+            <a class="btn btn-primary" type="button" onclick="updateTable()">
                 <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
                 <spring:message code="meal.filter"/>
             </a>
