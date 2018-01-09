@@ -50,7 +50,8 @@ function updateTable() {
 
 function cleanFilter() {
     $("#filterForm")[0].reset();
-    updateTable();
+    // updateTable();
+    $.get(ajaxUrl, updateTableByData);
 }
 
 $(document).ready(function () {
