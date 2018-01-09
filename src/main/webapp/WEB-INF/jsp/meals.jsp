@@ -169,8 +169,25 @@
                                 code="meal.dateTime"/></label>
 
                         <div class="col-xs-9">
-                            <input type="datetime-local" class="form-control" id="dateTime" name="dateTime"
-                                   placeholder="<spring:message code="meal.dateTime"/>">
+                            <%--<input type="datetime-local" class="form-control" id="dateTime" name="dateTime"--%>
+                            <%--placeholder="<spring:message code="meal.dateTime"/>">--%>
+
+                            <div class="form-group">
+                                <div class='input-group date' id='dateT'>
+                                    <input type='text' class="form-control" value="${meal.dateTime}" id='dateTime'
+                                           name='dateTime'/>
+                                    <span class="input-group-addon">
+                                   <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                            <script type="text/javascript">
+                                $(function () {
+                                    $('#dateT').datetimepicker(
+                                         {format: 'YYYY-MM-DD\\THH:mm:ss'}
+                                    );
+                                });
+                            </script>
                         </div>
                     </div>
 
