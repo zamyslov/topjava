@@ -53,3 +53,14 @@ function cleanFilter() {
     updateTable();
 }
 
+$(document).ready(function () {
+    $('#datep1,#datep2').datetimepicker(
+        {format: 'YYYY-MM-DD'}
+    );
+    $('#datep3 , #datep4').datetimepicker(
+        {format: 'HH:mm'}
+    );
+    $('#dateT').datetimepicker(
+        {format: 'YYYY-MM-DD\\THH:mm:ss'}
+    );
+});

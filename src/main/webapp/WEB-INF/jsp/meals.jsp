@@ -6,7 +6,7 @@
 <jsp:include page="fragments/headTag.jsp"/>
 <body>
 <script type="text/javascript" src="resources/js/datatablesUtil.js" defer></script>
-<script type="text/javascript" src="resources/js/mealDatatables.js" defer></script>
+<script type="text/javascript" src="resources/js/mealDatatables.js"></script>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 
 <div class="jumbotron">
@@ -14,10 +14,11 @@
         <h3><spring:message code="meal.title"/></h3>
         <form class="form-horizontal" id="filterForm">
             <%--<form id = "filterForm">--%>
-            <label for="startDate" class="control-label col-xs-2"><spring:message
-                    code="meal.startDate"/></label>
-            <div class='col-xs-2'>
-                <div class="form-group">
+            <div class="form-group">
+                <div class="clearfix"></div>
+                <label for="startDate" class="control-label col-xs-2"><spring:message
+                        code="meal.startDate"/></label>
+                <div class='col-xs-2'>
                     <div class='input-group date' id='datep1'>
                         <input type='text' class="form-control" id='startDate' name='startDate'/>
                         <span class="input-group-addon">
@@ -25,88 +26,48 @@
                         </span>
                     </div>
                 </div>
-                <script type="text/javascript">
-                    $(function () {
-                        $('#datep1').datetimepicker(
-                            {format: 'YYYY-MM-DD'}
-                        );
-                    });
-                </script>
-            </div>
-            <div class="clearfix"></div>
-            <div class="form-group">
+                <div class="clearfix"></div>
                 <label for="endDate" class="control-label col-xs-2"><spring:message code="meal.endDate"/></label>
                 <div class='col-xs-2'>
-                    <div class="form-group">
-                        <div class='input-group date' id='datep2'>
-                            <input type='text' class="form-control" id='endDate' name='endDate'/>
-                            <span class="input-group-addon">
+                    <div class='input-group date' id='datep2'>
+                        <input type='text' class="form-control" id='endDate' name='endDate'/>
+                        <span class="input-group-addon">
                                    <span class="glyphicon glyphicon-calendar"></span>
                         </span>
-                        </div>
                     </div>
-                    <script type="text/javascript">
-                        $(function () {
-                            $('#datep2').datetimepicker(
-                                {format: 'YYYY-MM-DD'}
-                            );
-                        });
-                    </script>
                 </div>
-            </div>
-            <div class="clearfix"></div>
-            <div class="form-group">
+                <div class="clearfix"></div>
                 <label for="startTime" class="control-label col-xs-2"><spring:message
                         code="meal.startTime"/></label>
                 <div class='col-xs-2'>
-                    <div class="form-group">
-                        <div class='input-group date' id='datep3'>
-                            <input type='text' class="form-control" id='startTime' name='startTime'/>
-                            <span class="input-group-addon">
+                    <div class='input-group date' id='datep3'>
+                        <input type='text' class="form-control" id='startTime' name='startTime'/>
+                        <span class="input-group-addon">
                                    <span class="glyphicon glyphicon-calendar"></span>
                         </span>
-                        </div>
                     </div>
-                    <script type="text/javascript">
-                        $(function () {
-                            $('#datep3').datetimepicker(
-                                {format: 'HH:mm'}
-                            );
-                        });
-                    </script>
                 </div>
-            </div>
-            <div class="clearfix"></div>
-            <div class="form-group">
+                <div class="clearfix"></div>
                 <label for="endTime" class="control-label col-xs-2"><spring:message code="meal.endTime"/></label>
                 <div class='col-xs-2'>
-                    <div class="form-group">
-                        <div class='input-group date' id='datep4'>
-                            <input type='text' class="form-control" id='endTime' name='endTime'/>
-                            <span class="input-group-addon">
+                    <div class='input-group date' id='datep4'>
+                        <input type='text' class="form-control" id='endTime' name='endTime'/>
+                        <span class="input-group-addon">
                                    <span class="glyphicon glyphicon-calendar"></span>
                         </span>
-                        </div>
                     </div>
-                    <script type="text/javascript">
-                        $(function () {
-                            $('#datep4').datetimepicker(
-                                {format: 'HH:mm'}
-                            );
-                        });
-                    </script>
                 </div>
+                <div class="clearfix"></div>
+                <hr>
+                <a class="btn btn-primary" type="button" onclick="updateTable()">
+                    <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+                    <spring:message code="meal.filter"/>
+                </a>
+                <a class="btn btn-primary" type="button" onclick="cleanFilter()">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    <spring:message code="meal.clean"/>
+                </a>
             </div>
-            <div class="clearfix"></div>
-            <hr>
-            <a class="btn btn-primary" type="button" onclick="updateTable()">
-                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
-                <spring:message code="meal.filter"/>
-            </a>
-            <a class="btn btn-primary" type="button" onclick="cleanFilter()">
-                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                <spring:message code="meal.clean"/>
-            </a>
             <hr>
         </form>
         <hr>
@@ -132,8 +93,6 @@
                     <td>${fn:formatDateTime(meal.dateTime)}</td>
                     <td>${meal.description}</td>
                     <td>${meal.calories}</td>
-                        <%--<td><a href="meals/update?id=${meal.id}"><spring:message code="common.update"/></a></td>--%>
-                        <%--<td><a href="meals/delete?id=${meal.id}"><spring:message code="common.delete"/></a></td>--%>
                     <td><a><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
                     <td><a class="delete"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                     </td>
@@ -169,9 +128,6 @@
                                 code="meal.dateTime"/></label>
 
                         <div class="col-xs-9">
-                            <%--<input type="datetime-local" class="form-control" id="dateTime" name="dateTime"--%>
-                            <%--placeholder="<spring:message code="meal.dateTime"/>">--%>
-
                             <div class="form-group">
                                 <div class='input-group date' id='dateT'>
                                     <input type='text' class="form-control" value="${meal.dateTime}" id='dateTime'
@@ -181,13 +137,6 @@
                                     </span>
                                 </div>
                             </div>
-                            <script type="text/javascript">
-                                $(function () {
-                                    $('#dateT').datetimepicker(
-                                         {format: 'YYYY-MM-DD\\THH:mm:ss'}
-                                    );
-                                });
-                            </script>
                         </div>
                     </div>
 
