@@ -68,15 +68,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @CacheEvict(value = "users", allEntries = true)
-    @Transactional
-    @Override
-    public void update(UserTo userTo) {
-        User user = get(userTo.getId());
-        repository.save(UserUtil.updateFromTo(user, userTo));
-    }
-
-
-    @CacheEvict(value = "users", allEntries = true)
     @Override
     @Transactional
     public void enable(int id, boolean enabled) {

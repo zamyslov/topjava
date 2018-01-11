@@ -11,7 +11,7 @@ public class MealWithExceed extends BaseTo {
 
     private final int calories;
 
-    private final boolean exceed;
+    private final Boolean exceed;
 
     public MealWithExceed(Integer id, LocalDateTime dateTime, String description, int calories, boolean exceed) {
         super(id);
