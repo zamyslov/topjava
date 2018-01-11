@@ -22,30 +22,44 @@
                                 <label class="control-label col-sm-2" for="startDate"><spring:message
                                         code="meal.startDate"/>:</label>
 
-                                <div class="col-sm-4">
-                                    <input class="form-control" type="date" name="startDate" id="startDate">
+                                <div class='col-xs-2'>
+                                    <div class='input-group date' id='datep1'>
+                                        <input type='text' class="form-control" id='startDate' name='startDate'/>
+                                        <span class="input-group-addon">
+                                   <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                    </div>
                                 </div>
 
                                 <label class="control-label col-sm-3" for="startTime"><spring:message
                                         code="meal.startTime"/>:</label>
 
-                                <div class="col-sm-3">
-                                    <input class="form-control" type="time" name="startTime" id="startTime">
+                                <div class='input-group date' id='datep3'>
+                                    <input type='text' class="form-control" id='startTime' name='startTime'/>
+                                    <span class="input-group-addon">
+                                   <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="endDate"><spring:message
                                         code="meal.endDate"/>:</label>
 
-                                <div class="col-sm-4">
-                                    <input class="form-control" type="date" name="endDate" id="endDate">
+                                <div class='input-group date' id='datep2'>
+                                    <input type='text' class="form-control" id='endDate' name='endDate'/>
+                                    <span class="input-group-addon">
+                                   <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
                                 </div>
 
                                 <label class="control-label col-sm-3" for="endTime"><spring:message
                                         code="meal.endTime"/>:</label>
 
-                                <div class="col-sm-3">
-                                    <input class="form-control" type="time" name="endTime" id="endTime">
+                                <div class='input-group date' id='datep4'>
+                                    <input type='text' class="form-control" id='endTime' name='endTime'/>
+                                    <span class="input-group-addon">
+                                   <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
                                 </div>
                             </div>
                         </form>
