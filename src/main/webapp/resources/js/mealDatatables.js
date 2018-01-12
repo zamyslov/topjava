@@ -76,6 +76,6 @@ $(document).ready(function () {
         {format: 'HH:mm'}
     );
     $('#dateT').datetimepicker(
-        {format: 'YYYY-MM-DD\\THH:mm:ss'}
+        {format: 'YYYY-MM-DD HH:mm'}
     );
 });
