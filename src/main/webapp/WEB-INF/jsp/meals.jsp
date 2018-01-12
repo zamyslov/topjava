@@ -14,15 +14,14 @@
         <h3><spring:message code="meal.title"/></h3>
 
         <div class="row">
-            <div class="col-sm-7">
+            <div class="col-xs-8">
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <form class="form-horizontal" id="filter">
                             <div class="form-group">
-                                <label class="control-label col-sm-2" for="startDate"><spring:message
+                                <label class="control-label col-xs-2" for="startDate"><spring:message
                                         code="meal.startDate"/>:</label>
-
-                                <div class='col-xs-2'>
+                                <div class='col-xs-3'>
                                     <div class='input-group date' id='datep1'>
                                         <input type='text' class="form-control" id='startDate' name='startDate'/>
                                         <span class="input-group-addon">
@@ -30,36 +29,37 @@
                                     </span>
                                     </div>
                                 </div>
-
-                                <label class="control-label col-sm-3" for="startTime"><spring:message
+                                <label class="control-label col-xs-2" for="startTime"><spring:message
                                         code="meal.startTime"/>:</label>
-
-                                <div class='input-group date' id='datep3'>
-                                    <input type='text' class="form-control" id='startTime' name='startTime'/>
-                                    <span class="input-group-addon">
+                                <div class='col-xs-3'>
+                                    <div class='input-group date' id='datep3'>
+                                        <input type='text' class="form-control" id='startTime' name='startTime'/>
+                                        <span class="input-group-addon">
                                    <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm-2" for="endDate"><spring:message
+                                <label class="control-label col-xs-2" for="endDate"><spring:message
                                         code="meal.endDate"/>:</label>
-
-                                <div class='input-group date' id='datep2'>
-                                    <input type='text' class="form-control" id='endDate' name='endDate'/>
-                                    <span class="input-group-addon">
+                                <div class='col-xs-3'>
+                                    <div class='input-group date' id='datep2'>
+                                        <input type='text' class="form-control" id='endDate' name='endDate'/>
+                                        <span class="input-group-addon">
                                    <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
+                                    </div>
                                 </div>
-
-                                <label class="control-label col-sm-3" for="endTime"><spring:message
+                                <label class="control-label col-xs-2" for="endTime"><spring:message
                                         code="meal.endTime"/>:</label>
-
-                                <div class='input-group date' id='datep4'>
-                                    <input type='text' class="form-control" id='endTime' name='endTime'/>
-                                    <span class="input-group-addon">
+                                <div class='col-xs-3'>
+                                    <div class='input-group date' id='datep4'>
+                                        <input type='text' class="form-control" id='endTime' name='endTime'/>
+                                        <span class="input-group-addon">
                                    <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
+                                    </div>
                                 </div>
                             </div>
                         </form>
@@ -103,21 +103,23 @@
             <div class="modal-body">
                 <form class="form-horizontal" id="detailsForm">
                     <input type="hidden" id="id" name="id">
-
                     <div class="form-group">
                         <label for="dateTime" class="control-label col-xs-3"><spring:message
                                 code="meal.dateTime"/></label>
-
-                        <div class="col-xs-9">
-                            <input type="datetime-local" class="form-control" id="dateTime" name="dateTime"
-                                   placeholder="<spring:message code="meal.dateTime"/>">
+                        <div class="col-xs-5">
+                            <div class='input-group date' id='dateT'>
+                                <input type='text' class="form-control" value="${meal.dateTime}" id='dateTime'
+                                       name='dateTime'/>
+                                <span class="input-group-addon">
+                                   <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="description" class="control-label col-xs-3"><spring:message
                                 code="meal.description"/></label>
-
-                        <div class="col-xs-9">
+                        <div class="col-xs-5">
                             <input type="text" class="form-control" id="description" name="description"
                                    placeholder="<spring:message code="meal.description"/>">
                         </div>
@@ -125,8 +127,7 @@
                     <div class="form-group">
                         <label for="calories" class="control-label col-xs-3"><spring:message
                                 code="meal.calories"/></label>
-
-                        <div class="col-xs-9">
+                        <div class="col-xs-5">
                             <input type="number" class="form-control" id="calories" name="calories" placeholder="1000">
                         </div>
                     </div>
