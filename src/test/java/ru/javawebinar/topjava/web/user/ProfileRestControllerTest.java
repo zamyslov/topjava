@@ -12,7 +12,6 @@ import ru.javawebinar.topjava.web.json.JsonUtil;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.javawebinar.topjava.TestUtil.userHttpBasic;
 import static ru.javawebinar.topjava.UserTestData.*;
@@ -56,17 +55,5 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk());
 
         assertMatch(userService.getByEmail("newemail@ya.ru"), UserUtil.updateFromTo(new User(USER), updatedTo));
-    }
-
-    @Test
-    public void testUpdateInvalid() throws Exception {
-        UserTo updatedTo = new UserTo(null, "newName", "", "newPassword", 1500);
-
-        mockMvc.perform(put(REST_URL).contentType(MediaType.APPLICATION_JSON)
-                .with(userHttpBasic(USER))
-                .content(JsonUtil.writeValue(updatedTo)))
-                .andDo(print())
-                .andExpect(status().isUnprocessableEntity())
-                .andExpect(jsonPath("$.type").value("VALIDATION_ERROR"));
     }
 }

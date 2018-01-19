@@ -16,7 +16,6 @@ import java.util.Arrays;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.MealTestData.assertMatch;
@@ -85,19 +84,6 @@ public class MealRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void testUpdateInvalid() throws Exception {
-        Meal updated = getUpdated();
-        updated.setCalories(0);
-
-        mockMvc.perform(put(REST_URL + MEAL1_ID)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(updated))
-                .with(userHttpBasic(USER)))
-                .andExpect(status().isUnprocessableEntity())
-                .andExpect(jsonPath("$.type").value("VALIDATION_ERROR"));
-    }
-
-    @Test
     public void testCreate() throws Exception {
         Meal created = getCreated();
         ResultActions action = mockMvc.perform(post(REST_URL)
@@ -110,18 +96,6 @@ public class MealRestControllerTest extends AbstractControllerTest {
 
         assertMatch(returned, created);
         assertMatch(service.getAll(ADMIN_ID), ADMIN_MEAL2, created, ADMIN_MEAL1);
-    }
-
-    @Test
-    public void testCreateInvalid() throws Exception {
-        Meal created = getCreated();
-        created.setCalories(0);
-        mockMvc.perform(post(REST_URL)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(created))
-                .with(userHttpBasic(ADMIN)))
-                .andExpect(status().isUnprocessableEntity())
-                .andExpect(jsonPath("$.type").value("VALIDATION_ERROR"));
     }
 
     @Test
