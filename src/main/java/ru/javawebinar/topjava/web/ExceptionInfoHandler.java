@@ -2,6 +2,9 @@ package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -24,7 +27,9 @@ import java.util.StringJoiner;
 @Order(Ordered.HIGHEST_PRECEDENCE + 5)
 public class ExceptionInfoHandler {
     private static Logger log = LoggerFactory.getLogger(ExceptionInfoHandler.class);
-    private static final String MAIL_DUBLICATED = "user.mailDublicated";
+
+    @Autowired
+    private MessageSource messageSource;
 
     //  http://stackoverflow.com/a/22358422/548473
     @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)
@@ -38,7 +43,8 @@ public class ExceptionInfoHandler {
     public ErrorInfo conflict(HttpServletRequest req, DataIntegrityViolationException e) {
         String cause = ValidationUtil.getRootCause(e).getLocalizedMessage();
         if (cause.contains("users_unique_email_idx")) {
-            return new ErrorInfo(req.getRequestURL(), ErrorType.DATA_ERROR, MAIL_DUBLICATED);
+            return new ErrorInfo(req.getRequestURL(), ErrorType.DATA_ERROR,
+                    messageSource.getMessage("user.mailDuplicated",null, LocaleContextHolder.getLocale()));
         } else {
             return logAndGetErrorInfo(req, e, true, ErrorType.DATA_ERROR);
         }
