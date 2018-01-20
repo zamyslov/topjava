@@ -20,6 +20,8 @@
                 <button type="submit" class="btn btn-success">
                     <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
                 </button>
+                <a href="?languageVar=en">EN</a>
+                <a href="?languageVar=ru">RU</a>
             </form:form>
         </div>
     </div>
@@ -88,6 +90,7 @@
     <c:if test="${not empty param.username}">
     setCredentials("${param.username}", "");
     </c:if>
+
     function setCredentials(username, password) {
         $('input[name="username"]').val(username);
         $('input[name="password"]').val(password);
