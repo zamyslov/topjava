@@ -44,7 +44,10 @@ public class ExceptionInfoHandler {
         String cause = ValidationUtil.getRootCause(e).getLocalizedMessage();
         if (cause.contains("users_unique_email_idx")) {
             return new ErrorInfo(req.getRequestURL(), ErrorType.DATA_ERROR,
-                    messageSource.getMessage("user.mailDuplicated",null, LocaleContextHolder.getLocale()));
+                    messageSource.getMessage("user.mailDuplicated", null, LocaleContextHolder.getLocale()));
+        } else if (cause.contains("meals_unique_user_datetime_idx")) {
+            return new ErrorInfo(req.getRequestURL(), ErrorType.DATA_ERROR,
+                    messageSource.getMessage("meal.timeDuplicated", null, LocaleContextHolder.getLocale()));
         } else {
             return logAndGetErrorInfo(req, e, true, ErrorType.DATA_ERROR);
         }

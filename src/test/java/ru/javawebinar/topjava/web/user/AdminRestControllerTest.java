@@ -1,7 +1,9 @@
 package ru.javawebinar.topjava.web.user;
 
 import org.junit.Test;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.transaction.TestTransaction;
 import org.springframework.test.web.servlet.ResultActions;
 import ru.javawebinar.topjava.TestUtil;
 import ru.javawebinar.topjava.UserTestData;
@@ -97,6 +99,19 @@ public class AdminRestControllerTest extends AbstractControllerTest {
         assertMatch(updated, UserUtil.updateFromTo(new User(USER), updatedTo));
     }
 
+    @Test(expected = DataIntegrityViolationException.class)
+    public void testUpdateDuplicateEmail() throws Exception {
+        UserTo updatedTo = new UserTo(null, "User", "admin@gmail.com", "newPassword", 1500);
+        mockMvc.perform(put(REST_URL + USER_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(ADMIN))
+                .content(JsonUtil.writeValue(updatedTo)))
+                .andDo(print());
+
+        TestTransaction.flagForCommit();
+        TestTransaction.end();
+    }
+
     @Test
     public void testUpdateInvalid() throws Exception {
         User updated = new User(USER);
@@ -125,6 +140,19 @@ public class AdminRestControllerTest extends AbstractControllerTest {
 
         assertMatch(returned, expected);
         assertMatch(userService.getAll(), ADMIN, expected, USER);
+    }
+
+    @Test(expected = DataIntegrityViolationException.class)
+    public void testCreateDuplicateEmail() throws Exception {
+        User expected = new User(null, "New", "user@yandex.ru", "newPass", 2300, Role.ROLE_USER, Role.ROLE_ADMIN);
+        mockMvc.perform(post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(ADMIN))
+                .content(UserTestData.jsonWithPassword(expected, "newPass")))
+                .andDo(print());
+        TestTransaction.flagForCommit();
+        TestTransaction.end();
+
     }
 
     @Test

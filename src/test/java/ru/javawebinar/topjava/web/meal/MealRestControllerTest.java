@@ -2,7 +2,9 @@ package ru.javawebinar.topjava.web.meal;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.transaction.TestTransaction;
 import org.springframework.test.web.servlet.ResultActions;
 import ru.javawebinar.topjava.TestUtil;
 import ru.javawebinar.topjava.model.Meal;
@@ -11,8 +13,10 @@ import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.web.AbstractControllerTest;
 import ru.javawebinar.topjava.web.json.JsonUtil;
 
+import java.time.Month;
 import java.util.Arrays;
 
+import static java.time.LocalDateTime.of;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -82,6 +86,21 @@ public class MealRestControllerTest extends AbstractControllerTest {
         assertMatch(service.get(MEAL1_ID, START_SEQ), updated);
     }
 
+    @Test(expected = DataIntegrityViolationException.class)
+    public void testUpdateDuplicateDate() throws Exception {
+        Meal updated = getUpdated();
+        updated.setDateTime(of(2015, Month.MAY, 30, 13, 0));
+
+        mockMvc.perform(put(REST_URL + MEAL1_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(updated))
+                .with(userHttpBasic(USER)))
+                .andDo(print());
+
+        TestTransaction.flagForCommit();
+        TestTransaction.end();
+    }
+
     @Test
     public void testUpdateInvalid() throws Exception {
         Meal updated = getUpdated();
@@ -108,6 +127,20 @@ public class MealRestControllerTest extends AbstractControllerTest {
 
         assertMatch(returned, created);
         assertMatch(service.getAll(ADMIN_ID), ADMIN_MEAL2, created, ADMIN_MEAL1);
+    }
+
+    @Test(expected = DataIntegrityViolationException.class)
+    public void testCreateDuplicateDate() throws Exception {
+        Meal created = getCreated();
+        created.setDateTime(of(2015, Month.MAY, 30, 13, 0));
+        mockMvc.perform(post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(created))
+                .with(userHttpBasic(USER)))
+                .andDo(print());
+
+        TestTransaction.flagForCommit();
+        TestTransaction.end();
     }
 
     @Test
