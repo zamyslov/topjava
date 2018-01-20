@@ -6,6 +6,8 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +18,7 @@ import ru.javawebinar.topjava.util.exception.ErrorType;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.StringJoiner;
 
 @RestControllerAdvice(annotations = RestController.class)
 @Order(Ordered.HIGHEST_PRECEDENCE + 5)
@@ -38,6 +41,25 @@ public class ExceptionInfoHandler {
             return new ErrorInfo(req.getRequestURL(), ErrorType.DATA_ERROR, MAIL_DUBLICATED);
         } else {
             return logAndGetErrorInfo(req, e, true, ErrorType.DATA_ERROR);
+        }
+    }
+
+    @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)  // 409
+    @ExceptionHandler({BindException.class, MethodArgumentNotValidException.class})
+    public ErrorInfo conflict(HttpServletRequest req, Exception e) {
+        if (e instanceof BindException) {
+            StringJoiner joiner = new StringJoiner("<br>");
+            ((BindException) e).getBindingResult().getFieldErrors().forEach(
+                    fe -> {
+                        String msg = fe.getDefaultMessage();
+                        if (!msg.startsWith(fe.getField())) {
+                            msg = fe.getField() + ' ' + msg;
+                        }
+                        joiner.add(msg);
+                    });
+            return new ErrorInfo(req.getRequestURL(), ErrorType.VALIDATION_ERROR, joiner.toString());
+        } else {
+            return logAndGetErrorInfo(req, e, true, ErrorType.VALIDATION_ERROR);
         }
     }
 
