@@ -18,18 +18,7 @@
                         <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
                     </button>
                 </sec:authorize>
-                <%--<a href="?languageVar=en">EN</a>--%>
-                <%--<a href="?languageVar=ru">RU</a>--%>
-                <div class="btn-group">
-                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="?languageVar=ru">
-                        <span class="caret"></span>
-                        ${pageContext.response.locale}
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="?languageVar=en">en</a></li>
-                        <li><a href="?languageVar=ru">ru</a></li>
-                    </ul>
-                </div>
+                <jsp:include page="locale.jsp"/>
             </form:form>
         </div>
     </div>

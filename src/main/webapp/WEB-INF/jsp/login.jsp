@@ -20,8 +20,7 @@
                 <button type="submit" class="btn btn-success">
                     <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
                 </button>
-                <a href="?languageVar=en">EN</a>
-                <a href="?languageVar=ru">RU</a>
+                <jsp:include page="fragments/locale.jsp"/>
             </form:form>
         </div>
     </div>
