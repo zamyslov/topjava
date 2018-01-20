@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 @Order(Ordered.HIGHEST_PRECEDENCE + 5)
 public class ExceptionInfoHandler {
     private static Logger log = LoggerFactory.getLogger(ExceptionInfoHandler.class);
+    private static final String MAIL_DUBLICATED = "user.mailDublicated";
 
     //  http://stackoverflow.com/a/22358422/548473
     @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)
@@ -32,7 +33,12 @@ public class ExceptionInfoHandler {
     @ResponseStatus(value = HttpStatus.CONFLICT)  // 409
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ErrorInfo conflict(HttpServletRequest req, DataIntegrityViolationException e) {
-        return logAndGetErrorInfo(req, e, true, ErrorType.DATA_ERROR);
+        String cause = ValidationUtil.getRootCause(e).getLocalizedMessage();
+        if (cause.contains("users_unique_email_idx")) {
+            return new ErrorInfo(req.getRequestURL(), ErrorType.DATA_ERROR, MAIL_DUBLICATED);
+        } else {
+            return logAndGetErrorInfo(req, e, true, ErrorType.DATA_ERROR);
+        }
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
